@@ -18,43 +18,56 @@ To access to database from another computer, we have to set user permission
 mysql -u root -h <windows_machine_ip_address> -p
 
 ```
+
 ```sql
 GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '<root_password>' WITH GRANT OPTION;
 
 FLUSH PRIVILEGES;
 ```
+
 ### mysql-client install
+
 ```
 sudo apt update
 sudo apt install mysql-client
 ```
+
 ## Development environment setting
 
 ### Golang install
 
 The following installation command will be used to install Go on Ubuntu:
+
 ```bash
 sudo apt update
 sudo apt install golang-go
 ```
+
 After installation, check golang on ubuntu.
+
 ```bash
 go version
 ```
+
 ### Redis server install
+
 ```bash
 sudo apt update
 sudo add-apt-repository ppa:redislabs/redis
 sudo apt-get install redis
 ```
+
 After install, check server and get some configuration
+
 ```bash
 redis-server -v
 sudo systemctl enable --now redis-server
 sudo nano /etc/redis/redis.conf
 ```
+
     Find the line stating the “bind” address as “127.0.0.1”:
     Restart server.
+
 ```bash
 sudo systemctl restart redis-server
 ```
@@ -62,15 +75,24 @@ sudo systemctl restart redis-server
 ## Code feature
 
 By utilizing Golang's concurrency features, the project ensures optimal performance by executing multiple database queries and Redis operations concurrently. This approach maximizes throughput and minimizes latency, making it suitable for handling large-scale datasets.
+
 ### CLI script
+
 ```bash
-git clone https://github.com/cozyguy/mysql-golang-redis-pipeline.git
+git clone https://github.com/cozyguy/go-db_manager.git
 ```
+
 ```cli
 go mod init <project_name>
 go mod tidy
 go run main.go
 ```
+
+## Data tracking
+
+Prometheus, which will collect metrics from your application, and Grafana, which will display the collected metrics.
+If you checkout to go_tracking branch, you will get knowledge that how to use Prometheus and Grafana in Golang data tracking.
+I used virtual data(random generate) that imitate MySQL data in master branch.
 
 ## Conclusion
 
