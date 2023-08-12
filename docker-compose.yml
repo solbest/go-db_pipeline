@@ -1,0 +1,30 @@
+version: '3.1'
+
+services:
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    network_mode: "bridge"
+    ports:
+      - "3001:3000"
+    depends_on:
+      - prometheus
+  golang:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    container_name: golang
+    restart: always
+    ports:
+      - 8081:8080
+  prometheus:
+    image: prom/prometheus:v2.43.0
+    volumes:
+      - ./infra/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    ports:
+      - 9091:9090
+    container_name: prometheus
+    network_mode: "bridge"
+    restart: always
